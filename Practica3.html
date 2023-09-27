@@ -1,0 +1,58 @@
+<html>
+
+    <body>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        
+        <ul id = "1">
+            
+          </ul>
+
+    <script 
+    src="https://code.jquery.com/jquery-3.6.0.min.js">
+    src="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"
+    </script>
+    
+    <script>
+    var model = 'm3'                                          
+    $.ajax({
+        method: 'GET',
+        url: 'https://api.api-ninjas.com/v1/cars?limit=50&model=' + model,
+        headers: { 'X-Api-Key': 'NY9pYdx7KJCdmKjF2rSiCA==JVraBT7tNiSoqpf4'},
+        contentType: 'application/json',
+        success: function(result) {
+        localStorage.setItem("result", JSON.stringify(result));
+            console.log(result);
+        },
+        error: function ajaxError(jqXHR) {
+            console.error('Error: ', jqXHR.responseText);
+        }
+    });                                          
+    
+    // Obtener los datos del localStorage
+    var resultado = JSON.parse(localStorage.getItem("result"));
+    let list = document.getElementById("1")
+
+    resultado.forEach((coche) => {
+        let item = document.createElement("li");
+        item.appendChild(document.createTextNode(coche.make + ", " + coche.model + ", " + coche.cylinders + ", " + coche.drive));
+        list.appendChild(item);
+    });
+    
+    '''acabar table, botones'''
+    
+    </script>
+
+    </body>
+    
+
+</html>
