@@ -26,6 +26,9 @@ s’han de mostrar les dades que s’han persistit.-->
                 <th>Acciones</th> <!-- Agregar una columna para botones de eliminación -->
             </tr>
         </thead>
+        <tbody>
+            <!-- Las filas de la tabla se llenarán dinámicamente aquí -->
+        </tbody>
     </table>
 
     <script>
@@ -47,16 +50,6 @@ s’han de mostrar les dades que s’han persistit.-->
     // Obtener los datos del localStorage
     var dataFromLocalStorage = JSON.parse(localStorage.getItem("result"));
 
-     // Obtener los datos del localStorage
-    //var resultado = JSON.parse(localStorage.getItem("result"));
-    //let list = document.getElementById("cocheList")
-
-    //resultado.forEach((coche) => {
-        //let item = document.createElement("li");
-        //item.appendChild(document.createTextNode(coche.model + ", " + coche.make + ", " + coche.cylinders + ", " + coche.drive));
-        //list.appendChild(item);
-    //});
-
     $(document).ready(function () {
         $('#coches').DataTable({
             paging: true,
@@ -73,19 +66,23 @@ s’han de mostrar les dades que s’han persistit.-->
                     data: null,
                     render: function(data, type, row) {
                         // Agregar botón de eliminación a cada fila
-                        return '<button class="btn btn-danger btn-delete">Eliminar</button>';
+                        return '<button class="btn-delete">Eliminar</button>';
                     }
                 }
             ]
         });
     });
-
+    
     $('#coches tbody').on('click', 'button.btn-delete', function () {
         var table = $('#coches').DataTable();
         var row = table.row($(this).parents('tr'));
         if (confirm('¿Estás seguro de que deseas eliminar esta fila?')) {
             row.remove().draw();
-            // También puedes agregar aquí la lógica para eliminar la fila de tu fuente de datos (localStorage).
+
+        // Agregar aquí la lógica para eliminar la fila correspondiente del localStorage
+        var data = JSON.parse(localStorage.getItem("result"));
+        data.splice(row.index(), 1); // Elimina el elemento correspondiente
+        localStorage.setItem("result", JSON.stringify(data));
         }
     });
     </script>
