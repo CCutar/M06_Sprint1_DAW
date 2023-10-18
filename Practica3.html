@@ -1,0 +1,98 @@
+<!--Buscar un API lliure per poder obtenir les dades.
+Un cop tinguem la API, hem de fer una petició a aquesta i obtenir les dades amb
+javascript.
+Quan ja tinguem les dades les hem de guardar al localStorage del navegador i
+mostrar-les en un fitxer html. Per mostrar-les podeu utilitzar la llibreria datatables
+(DataTables | Table plug-in for jQuery).
+A més a més s’ha d’afegir l’opció de poder eliminar un registre de la taula. Aquest
+registre s’ha de borrar del localStorage de tal forma que al recarregar la pàgina
+s’han de mostrar les dades que s’han persistit.-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <table id="coches" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Marca Del Coche</th>
+                <th>Modelo Del Coche</th>
+                <th>Cilindros</th>
+                <th>Traccion</th>
+                <th>Acciones</th> <!-- Agregar una columna para botones de eliminación -->
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+    var model = 'm3';                                         
+    $.ajax({
+        method: 'GET',
+        url: 'https://api.api-ninjas.com/v1/cars?limit=50&model=' + model,
+        headers: { 'X-Api-Key': 'NY9pYdx7KJCdmKjF2rSiCA==JVraBT7tNiSoqpf4'},
+        contentType: 'application/json',
+        success: function(result) {
+            localStorage.setItem("result", JSON.stringify(result));
+            console.log(result);
+        },
+        error: function ajaxError(jqXHR) {
+            console.error('Error: ', jqXHR.responseText);
+        }
+    });
+    
+    // Obtener los datos del localStorage
+    var dataFromLocalStorage = JSON.parse(localStorage.getItem("result"));
+
+     // Obtener los datos del localStorage
+    //var resultado = JSON.parse(localStorage.getItem("result"));
+    //let list = document.getElementById("cocheList")
+
+    //resultado.forEach((coche) => {
+        //let item = document.createElement("li");
+        //item.appendChild(document.createTextNode(coche.model + ", " + coche.make + ", " + coche.cylinders + ", " + coche.drive));
+        //list.appendChild(item);
+    //});
+
+    $(document).ready(function () {
+        $('#coches').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            data: dataFromLocalStorage, // Pasar los datos recuperados del localStorage
+            columns: [
+                { data: "model" },
+                { data: "make" },
+                { data: "cylinders" },
+                { data: "drive" },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        // Agregar botón de eliminación a cada fila
+                        return '<button class="btn btn-danger btn-delete">Eliminar</button>';
+                    }
+                }
+            ]
+        });
+    });
+
+    $('#coches tbody').on('click', 'button.btn-delete', function () {
+        var table = $('#coches').DataTable();
+        var row = table.row($(this).parents('tr'));
+        if (confirm('¿Estás seguro de que deseas eliminar esta fila?')) {
+            row.remove().draw();
+            // También puedes agregar aquí la lógica para eliminar la fila de tu fuente de datos (localStorage).
+        }
+    });
+    </script>
+
+</body>
+</html>
+
+
+    
+

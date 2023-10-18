@@ -1,0 +1,139 @@
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+var usuario = ''
+var name = ''
+var surname = ''
+var age = ''
+var password = ''
+
+$( document ).ready(function() {
+    $("#alerta").hide();
+    $("#informacion").hide();
+    $("#perfil").hide();
+});
+
+    function validacionEmail(usuario){
+        var validateEmailRegex = /^\S+@\S+\.\S+$/;
+        return validateEmailRegex.test(usuario);
+    }
+
+    function validacion(){
+        usuario = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        if(usuario.length <=0 || validacionEmail(usuario) == false){
+            $("#alerta").show();
+            //$("#email").css('border', '3px solid red')
+            
+        }
+        else if(password.length <=0){
+            $("#alerta").show();
+            //$("#password").css('border', '3px solid red')
+            return;
+        }
+        else{
+            $("#alerta").hide();
+            $("#signup").hide();
+            $("#informacion").show();
+        }
+    }
+
+    function validacion2(){
+        name = document.getElementById("name").value;
+        surname = document.getElementById("surname").value;
+        age = document.getElementById("age").value;
+        if(name.length <=0){
+            $("#alerta").show();
+            //$("#name").css('border', '3px solid red')
+            return;
+        }
+        else if(surname.length <=0){
+            $("#alerta").show();
+            //$("#surname").css('border', '3px solid red')
+            return;
+        }
+        else if(age.length <=0){
+            $("#alerta").show();
+            //$("#age").css('border', '3px solid red')
+            return;
+        }
+        else{
+            $("#alerta").hide();
+            $("#signup").hide();
+            $("#informacion").hide();
+            $("#perfil").show();
+            resultados();
+        }
+    }
+
+    function resultados(){
+        $("#resultado-nombre").text(name);
+        $("#resultado-apellido").text(surname);
+        $("#resultado-edad").text(age);
+        $("#resultado-email").text(usuario);
+        
+    }
+
+</script>
+
+<div id="alerta">
+    <label>Los campos estan vacios</label>
+    <br>
+</div>
+
+<div id="signup">
+    <div >
+        <label>Correo Electronico:</label>
+        <input id =email type="email"/>
+    </div>
+    <br>
+    <div >
+        <label>Contrasena:</label>
+        <input id =password type="password"/>
+    </div>
+    <br>
+    <div id="button">
+        <button onclick = "validacion()">Sign Up!</button>
+    </div>
+</div>
+
+<div id="informacion">
+    <div >
+        <label>Name:</label>
+        <input id =name type="text"/>
+    </div>
+    <br>
+    <div >
+        <label>Surname:</label>
+        <input id =surname type="text"/>
+    </div>
+    <br>
+    <div >
+        <label>Age:</label>
+        <input id =age type="number"/>
+    </div>
+    <br>
+    <div id="button">
+        <button onclick = "validacion2()">Next</button>
+    </div>
+</div>
+
+<div id = "perfil">
+    <div>PERFIL</div>
+    <label>Your name is:</label>
+    <div id = "resultado-nombre"></div>
+    <br>
+    <label>Your surname is:</label>
+    <div id = "resultado-apellido"></div>
+    <br>
+    <label>Your Age is:</label>
+    <div id = "resultado-edad"></div>
+    <br>
+    <label>Your email is:</label>
+    <div id = "resultado-email"></div>
+
+</div>
+
+</html>
