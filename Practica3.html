@@ -11,14 +11,20 @@ s’han de mostrar les dades que s’han persistit.-->
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- En el encabezado de la página, se incluyen los enlaces a las bibliotecas de DataTables y jQuery -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+    <!-- El cuerpo de la página web comienza aquí -->
+
+    <!-- Se crea una tabla con el identificador "coches" y se establece su ancho al 100% -->
     <table id="coches" class="display" style="width:100%">
         <thead>
+            <!-- Sección de encabezado de la tabla -->
             <tr>
+                <!-- Definición de las columnas de la tabla -->
                 <th>Marca Del Coche</th>
                 <th>Modelo Del Coche</th>
                 <th>Cilindros</th>
@@ -31,64 +37,75 @@ s’han de mostrar les dades que s’han persistit.-->
         </tbody>
     </table>
 
+    <!-- Inicio de la etiqueta de script -->
     <script>
-    var model = 'm3';                                         
-    $.ajax({
-        method: 'GET',
-        url: 'https://api.api-ninjas.com/v1/cars?limit=50&model=' + model,
-        headers: { 'X-Api-Key': 'NY9pYdx7KJCdmKjF2rSiCA==JVraBT7tNiSoqpf4'},
-        contentType: 'application/json',
-        success: function(result) {
-            localStorage.setItem("result", JSON.stringify(result));
-            console.log(result);
-        },
-        error: function ajaxError(jqXHR) {
-            console.error('Error: ', jqXHR.responseText);
-        }
-    });
-    
-    // Obtener los datos del localStorage
-    var dataFromLocalStorage = JSON.parse(localStorage.getItem("result"));
+        // Se declara la variable 'model' con el valor 'm3'
+        var model = 'm3';
 
-    $(document).ready(function () {
-        $('#coches').DataTable({
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true,
-            data: dataFromLocalStorage, // Pasar los datos recuperados del localStorage
-            columns: [
-                { data: "model" },
-                { data: "make" },
-                { data: "cylinders" },
-                { data: "drive" },
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        // Agregar botón de eliminación a cada fila
-                        return '<button class="btn-delete">Eliminar</button>';
-                    }
-                }
-            ]
+        // Se realiza una solicitud AJAX para obtener datos de coches desde una API
+        $.ajax({
+            method: 'GET',
+            url: 'https://api.api-ninjas.com/v1/cars?limit=50&model=' + model,
+            headers: { 'X-Api-Key': 'NY9pYdx7KJCdmKjF2rSiCA==JVraBT7tNiSoqpf4' },
+            contentType: 'application/json',
+            success: function(result) {
+                // Los datos se almacenan en el almacenamiento local (localStorage)
+                localStorage.setItem("result", JSON.stringify(result));
+                console.log(result); // Se muestran los datos en la consola
+            },
+            error: function ajaxError(jqXHR) {
+                console.error('Error: ', jqXHR.responseText);
+            }
         });
-    });
-    
-    $('#coches tbody').on('click', 'button.btn-delete', function () {
-        var table = $('#coches').DataTable();
-        var row = table.row($(this).parents('tr'));
-        if (confirm('¿Estás seguro de que deseas eliminar esta fila?')) {
-            row.remove().draw();
 
-        // Agregar aquí la lógica para eliminar la fila correspondiente del localStorage
-        var data = JSON.parse(localStorage.getItem("result"));
-        data.splice(row.index(), 1); // Elimina el elemento correspondiente
-        localStorage.setItem("result", JSON.stringify(data));
-        }
-    });
+        // Se obtienen los datos del almacenamiento local
+        var dataFromLocalStorage = JSON.parse(localStorage.getItem("result"));
+
+        // Cuando el documento está listo (completamente cargado), se ejecuta la función anónima
+        $(document).ready(function () {
+            // Se inicializa la tabla 'coches' utilizando DataTables
+            $('#coches').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                data: dataFromLocalStorage, // Se pasan los datos recuperados del almacenamiento local
+                columns: [
+                    { data: "model" },
+                    { data: "make" },
+                    { data: "cylinders" },
+                    { data: "drive" },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            // Se agrega un botón de eliminación a cada fila
+                            return '<button class="btn-delete">Eliminar</button>';
+                        }
+                    }
+                ]
+            });
+        });
+
+        // Se maneja el evento clic en el botón de eliminación dentro de la tabla
+        $('#coches tbody').on('click', 'button.btn-delete', function () {
+            var table = $('#coches').DataTable();
+            var row = table.row($(this).parents('tr'));
+            if (confirm('¿Estás seguro de que deseas eliminar esta fila?')) {
+                // Se elimina la fila y se dibuja nuevamente la tabla
+                row.remove().draw();
+
+                // Agregar aquí la lógica para eliminar la fila correspondiente del almacenamiento local
+                var data = JSON.parse(localStorage.getItem("result"));
+                data.splice(row.index(), 1); // Se elimina el elemento correspondiente
+                localStorage.setItem("result", JSON.stringify(data));
+            }
+        });
     </script>
+    <!-- Fin de la etiqueta de script -->
 
 </body>
 </html>
+
 
 
     

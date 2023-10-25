@@ -1,43 +1,65 @@
+// Declaración de una variable 'x' con un valor numérico
 var x = 2;
-var y ="2";
 
-if (x === y){
-    alert("SON IGUALES")
+// Declaración de una variable 'y' con un valor de cadena de texto
+var y = "2";
+
+// Comprobación de igualdad estricta (valor y tipo) entre 'x' e 'y'
+if (x === y) {
+    alert("SON IGUALES"); // Esta alerta no se ejecutará debido a que 'x' es un número y 'y' es una cadena de texto.
 }
 
-function holaMon(){
-    console.log("Funció")
+// Declaración de una función llamada 'holaMon'
+function holaMon() {
+    console.log("Funció"); // Imprime "Funció" en la consola si la función se llama.
 }
 
-//crear array
-let nombres = []; 
+// Declaración de un arreglo vacío llamado 'nombres'
+let nombres = [];
 
-function paramsFunction(){
-    //guardar els valors
+// Declaración de una función llamada 'paramsFunction'
+function paramsFunction() {
+    // Agrega el valor del elemento con el id "name" a la matriz 'nombres'
     nombres.push(document.getElementById("name").value);
-    //actualizar el contador
+    
+    // Actualiza el contenido del elemento con el id "contador" con la longitud de la matriz 'nombres'
     document.getElementById("contador").innerText = nombres.length;
 }
 
-function view(){
-    //nombres.forEach((element) => console.log(element));
-    var html = "<ul>";
-    for(var i = 0; i<nombres.length;i++){
-        html += "<li>" +nombres[i] + "<button onclick = 'alert("+i+")'>delete</button></li>";
+// Declaración de una función llamada 'view'
+function view() {
+    var html = "<ul>"; // Inicializa una variable 'html' con el comienzo de una lista no ordenada en HTML
+    
+    // Recorre la matriz 'nombres' y construye una lista de elementos
+    for (var i = 0; i < nombres.length; i++) {
+        // Agrega cada nombre y un botón "delete" que, cuando se hace clic, muestra un alert con el índice
+        html += "<li>" + nombres[i] + "<button onclick='alert(" + i + ")'>delete</button></li>";
     }
-    html += "</ul>"
+    
+    html += "</ul>"; // Cierra la lista
+    
+    // Actualiza el contenido del elemento con el id "dades" con la lista construida
     document.getElementById("dades").innerHTML = html;
 }
 
-function deleteDades(index){
+// Elimina los datos de la matriz 'nombres' en la posición 'index' y actualiza la vista y el contador
+function deleteDades(index) {
     nombres.splice(index, 1);
     view();
     paramsFunction();
 }
 
-console.log (typeof x);
-console.log (typeof "y");
+// Muestra el tipo de 'x' en la consola (debería imprimir 'number')
+console.log(typeof x);
 
-console.log("Hola")
-console.error("Mierdoooo")
-console.warn("WARNING")
+// Muestra el tipo de la cadena de texto "y" en la consola (debería imprimir 'string')
+console.log(typeof "y");
+
+// Imprime "Hola" en la consola
+console.log("Hola");
+
+// Imprime un mensaje de error en la consola
+console.error("Mierdoooo");
+
+// Imprime un mensaje de advertencia en la consola
+console.warn("WARNING");
