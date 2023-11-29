@@ -1,0 +1,117 @@
+// Crea un array de objetos que representen libros.
+// Cada objeto debe tener propiedades como "titulo", "autor" y "anioPublicacion".
+// Agrega al menos 3 libros al array.
+
+let libros = [
+    { titulo: 'El señor de los anillos', autor: 'J.R.R. Tolkien', anioPublicacion: 1954 },
+    { titulo: 'Cien años de soledad', autor: 'Gabriel García Márquez', anioPublicacion: 1967 },
+    { titulo: 'Harry Potter y la piedra filosofal', autor: 'J.K. Rowling', anioPublicacion: 1997 }
+];
+
+
+// Accede a la propiedad "autor" del segundo libro en el array y guárdala en una variable.
+// Luego, imprime esa variable en la consola.
+
+let segundoLibroAutor = libros[1].autor;
+console.log(segundoLibroAutor);
+
+
+// Cambia el año de publicación del tercer libro en el array a 2001.
+
+libros[2].anioPublicacion = 2001;
+console.log(libros);
+
+
+// Agrega un nuevo libro al array. Puedes inventar la información del libro.
+
+let nuevoLibro = { titulo: 'Nuevo Libro', autor: 'Autor Desconocido', anioPublicacion: 2022 };
+libros.push(nuevoLibro);
+console.log(libros);
+
+
+// Utiliza un bucle para recorrer el array de libros e imprime en la consola la información de cada libro.
+
+for (let i = 0; i < libros.length; i++) {
+    console.log(`Libro ${i + 1}: ${libros[i].titulo} - ${libros[i].autor} (${libros[i].anioPublicacion})`);
+}
+
+
+// Filtra los libros que fueron publicados después del año 2000 y guárdalos en un nuevo array.
+// Luego, imprime ese nuevo array en la consola.
+
+let librosRecientes = libros.filter(libro => libro.anioPublicacion > 2000);
+console.log(librosRecientes);
+
+
+// Crea una función que reciba el título de un libro como parámetro y devuelva el objeto del libro si está en el array.
+// Si el libro no está en el array, la función debe devolver un mensaje indicando que no se encontró el libro.
+
+function buscarLibroPorTitulo(titulo) {
+    let libroEncontrado = libros.find(libro => libro.titulo === titulo);
+    if (libroEncontrado) {
+        return libroEncontrado;
+    } else {
+        return `No se encontró el libro con el título "${titulo}".`;
+    }
+}
+
+console.log(buscarLibroPorTitulo('Cien años de soledad'));
+console.log(buscarLibroPorTitulo('Moby Dick'));
+
+
+// Calcula y muestra en la consola la edad promedio de los libros en el array.
+// Puedes asumir que el año actual es 2023.
+
+const anoActual = 2023;
+let edades = libros.map(libro => anoActual - libro.anioPublicacion);
+let promedioEdades = edades.reduce((total, edad) => total + edad, 0) / edades.length;
+
+console.log(`La edad promedio de publicación de los libros es ${promedioEdades.toFixed(2)} años.`);
+
+
+// Crea una función que reciba el título de un libro y elimine ese libro del array.
+// Imprime el array después de eliminar el libro.
+
+function eliminarLibroPorTitulo(titulo) {
+    libros = libros.filter(libro => libro.titulo !== titulo);
+}
+
+eliminarLibroPorTitulo('Nuevo Libro');
+console.log(libros);
+
+
+// Crea un nuevo array que contenga solo los primeros dos libros del array original utilizando la función slice.
+// Imprime el nuevo array en la consola.
+
+let primerosDosLibros = libros.slice(0, 2);
+console.log(primerosDosLibros);
+
+
+// Utiliza la función pop para eliminar el último libro del array.
+// Imprime el array después de realizar la operación.
+
+libros.pop();
+console.log(libros);
+
+
+// Utiliza la función shift para eliminar el primer libro del array.
+// Imprime el array después de realizar la operación.
+
+libros.shift();
+console.log(libros);
+
+
+// Utiliza la función splice para eliminar el segundo libro del array.
+// Imprime el array después de realizar la operación.
+
+libros.splice(1, 1);
+console.log(libros);
+
+
+// Utiliza la función splice para agregar un nuevo libro en la segunda posición del array.
+// Puedes inventar la información del nuevo libro.
+// Imprime el array después de realizar la operación.
+
+let nuevoLibro = { titulo: 'Libro Agregado', autor: 'Autor Desconocido', anioPublicacion: 2023 };
+libros.splice(1, 0, nuevoLibro);
+console.log(libros);

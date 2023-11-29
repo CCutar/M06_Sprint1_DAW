@@ -1,0 +1,132 @@
+<!-- Pregunta 6: Gestió biblioteca (4 punt) -->
+<!-- Crea un programa de gestió de biblioteca utilitzant classes i objectes. S’han d’implementar -->
+<!-- les següents classes: -->
+<!-- - Llibre: amb els atributs títol, autor, gènere i una llista d’exemplars. (1 punt) -->
+<!-- - Exemplars: amb un número d’identificació únic (1 punt) -->
+<!-- - Biblioteca: que gestiona els llibres i els exemplars. Ha de tenir mètodes per -->
+<!-- demanar un llibre, tornar-lo i afegir nous exemplars. (2 punts) -->
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Biblioteca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestión de Biblioteca</h1>
+
+    <button onclick="agregarLibro()">Agregar Libro</button>
+    <button onclick="prestarLibro()">Prestar Libro</button>
+    <button onclick="devolverLibro()">Devolver Libro</button>
+
+    <div id="output"></div>
+    <p>Liviu e mai prost ca ploaia</p>
+    <script>
+        // Definición de la clase Exemplar
+        class Exemplar {
+            constructor(id) {
+                this.id = id;
+            }
+        }
+    
+        // Definición de la clase Llibre
+        class Llibre {
+            constructor(titol, autor, genere) {
+                this.titol = titol;
+                this.autor = autor;
+                this.genere = genere;
+                this.exemplars = [];
+            }
+    
+            // Método para agregar un exemplar a la lista
+            afegirExemplar(id) {
+                const exemplar = new Exemplar(id);
+                this.exemplars.push(exemplar);
+            }
+        }
+    
+        // Definición de la clase Biblioteca
+        class Biblioteca {
+            constructor() {
+                this.llibres = [];
+            }
+    
+            // Método para agregar un llibre a la biblioteca
+            afegirLlibre(titol, autor, genere) {
+                const llibre = new Llibre(titol, autor, genere);
+                this.llibres.push(llibre);
+            }
+    
+            // Método para demanar un llibre de la biblioteca
+            demanarLlibre(titol) {
+                const llibre = this.llibres.find(lib => lib.titol === titol);
+    
+                if (llibre) {
+                    if (llibre.exemplars.length > 0) {
+                        const exemplarPrestat = llibre.exemplars.pop();
+                        mostrarOutput(`S'ha prestat el llibre "${titol}" amb l'exemplar ${exemplarPrestat.id}.`);
+                    } else {
+                        mostrarOutput(`No hi ha exemplars disponibles del llibre "${titol}".`);
+                    }
+                } else {
+                    mostrarOutput(`No s'ha trobat cap llibre amb el títol "${titol}".`);
+                }
+            }
+    
+            // Método para tornar un llibre a la biblioteca
+            tornarLlibre(titol, idExemplar) {
+                const llibre = this.llibres.find(lib => lib.titol === titol);
+    
+                if (llibre) {
+                    const exemplarTornat = new Exemplar(idExemplar);
+                    llibre.exemplars.push(exemplarTornat);
+                    mostrarOutput(`S'ha retornat l'exemplar ${idExemplar} del llibre "${titol}".`);
+                } else {
+                    mostrarOutput(`No s'ha trobat cap llibre amb el títol "${titol}".`);
+                }
+            }
+        }
+    
+        // Creación de una instancia de la clase Biblioteca
+        const biblioteca = new Biblioteca();
+    
+        // Función para agregar un libro a la biblioteca
+        function agregarLibro() {
+            const titol = prompt("Introduce el título del libro:");
+            const autor = prompt("Introduce el autor del libro:");
+            const genere = prompt("Introduce el género del libro:");
+    
+            biblioteca.afegirLlibre(titol, autor, genere);
+            mostrarOutput(`S'ha afegit el llibre: "${titol}" de l'autor ${autor} al gènere ${genere}.`);
+        }
+    
+        // Función para prestar un libro de la biblioteca
+        function prestarLibro() {
+            const titol = prompt("Introduce el título del libro que vols prestar:");
+            biblioteca.demanarLlibre(titol);
+        }
+    
+        // Función para devolver un libro a la biblioteca
+        function devolverLibro() {
+            const titol = prompt("Introduce el título del libro que vols tornar:");
+            const idExemplar = prompt("Introduce l'identificador de l'exemplar que vols tornar:");
+            biblioteca.tornarLlibre(titol, idExemplar);
+        }
+    
+        // Función para mostrar mensajes en la interfaz de usuario
+        function mostrarOutput(mensaje) {
+            const outputElement = document.getElementById("output");
+            outputElement.innerHTML += `<p>${mensaje}</p>`;
+        }
+    </script>
+</body>
+</html>
+
